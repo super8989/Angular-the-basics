@@ -5,3 +5,8 @@ button {
 .row {
   margin-top: 0.5rem;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
