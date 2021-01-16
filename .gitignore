@@ -45,4 +45,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.env
+# API KEY
+src/environments/api.service.ts
