@@ -1,7 +1,13 @@
 <p>auth</p>
 <div class="row">
   <div class="col-xs-12">
-    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+    <div class="alert alert-danger" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+    <div *ngIf="isLoading">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
       <div class="form-gourp">
         <label for="email">Email</label>
         <input
