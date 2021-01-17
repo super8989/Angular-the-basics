@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { API } from 'src/environments/api.service';
+import { User } from './user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -16,9 +17,10 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient, private api: API) {}
-
   apiKey = this.api.apikey;
+  user = new Subject<User>();
+
+  constructor(private http: HttpClient, private api: API) {}
 
   signup(email: string, password: string) {
     console.log(this.apiKey);
@@ -35,7 +37,17 @@ export class AuthService {
       )
       .pipe(
         // catchError(errorRes =>{return throwError(errorRes)})
-        catchError(this.handleError)
+        catchError(this.handleError),
+
+        // tap performs some action without changing the response from the observable
+        tap((resData) => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          );
+        })
       );
   }
 
@@ -49,7 +61,31 @@ export class AuthService {
           returnSecureToken: true,
         }
       )
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) =>
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          )
+        )
+      );
+  }
+
+  private handleAuthentication(
+    email: string,
+    userId: string,
+    token: string,
+    expiresIn: number
+  ) {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    const user = new User(email, userId, token, expirationDate);
+
+    console.log('user authenticated', user);
+
+    this.user.next(user);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
