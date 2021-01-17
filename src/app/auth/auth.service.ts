@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,33 +34,43 @@ export class AuthService {
         }
       )
       .pipe(
-        catchError((errorRes) => {
-          console.log(errorRes);
-
-          let errorMessage = 'An unknown error occurred!';
-
-          if (!errorRes.error || !errorRes.error.error) {
-            return throwError(errorMessage);
-          }
-
-          switch (errorRes.error.error.message) {
-            case 'EMAIL_EXISTS':
-              errorMessage = 'This email exists already';
-          }
-
-          return throwError(errorMessage);
-        })
+        // catchError(errorRes =>{return throwError(errorRes)})
+        catchError(this.handleError)
       );
   }
 
   login(email: string, password: string) {
-    return this.http.post<AuthResponseData>(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`,
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }
-    );
+    return this.http
+      .post<AuthResponseData>(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(errorRes: HttpErrorResponse) {
+    console.log(errorRes);
+
+    let errorMessage = 'An unknown error occurred!';
+
+    if (!errorRes.error || !errorRes.error.error) throwError(errorMessage);
+
+    switch (errorRes.error.error.message) {
+      case 'EMAIL_EXISTS':
+        errorMessage = 'This email exists already';
+        break;
+      case 'EMAIL_NOT_FOUND':
+        errorMessage = 'This email is not registered';
+        break;
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Invalid password';
+        break;
+    }
+
+    return throwError(errorMessage);
   }
 }
