@@ -52,6 +52,8 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    console.log('logging in');
+
     return this.http
       .post<AuthResponseData>(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`,
@@ -63,14 +65,15 @@ export class AuthService {
       )
       .pipe(
         catchError(this.handleError),
-        tap((resData) =>
-          this.handleAuthentication(
+        tap((resData) => {
+          console.log('handling login authentication', resData);
+          return this.handleAuthentication(
             resData.email,
             resData.localId,
             resData.idToken,
             +resData.expiresIn
-          )
-        )
+          );
+        })
       );
   }
 
@@ -84,7 +87,6 @@ export class AuthService {
     const user = new User(email, userId, token, expirationDate);
 
     console.log('user authenticated', user);
-
     this.user.next(user);
   }
 
