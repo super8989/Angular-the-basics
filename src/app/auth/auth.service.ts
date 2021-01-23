@@ -82,6 +82,32 @@ export class AuthService {
       );
   }
 
+  autoLogin() {
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+
+    console.log('autoLogin userData:', userData);
+
+    if (!userData) {
+      return;
+    }
+
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpirationDate)
+    );
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
+  }
+
   logout() {
     console.log('logged out', this.user);
     this.user.next(null);
@@ -99,6 +125,9 @@ export class AuthService {
 
     console.log('user authenticated', user);
     this.user.next(user);
+
+    localStorage.setItem('userData', JSON.stringify(user));
+    console.log('local storage set');
   }
 
   private handleError(errorRes: HttpErrorResponse) {
