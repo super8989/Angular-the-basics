@@ -8,7 +8,7 @@ const appRoutes: Routes = [
   // Moved to recipes-routing.module.ts
   // { path: 'recipes', component: RecipesComponent, ... },
   // { path: 'shopping-list', component: ShoppingListComponent },
-  { path: 'auth', component: AuthComponent },
+  // { path: 'auth', component: AuthComponent },
 ];
 
 @NgModule({
