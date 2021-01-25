@@ -7,7 +7,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   // Moved to recipes-routing.module.ts
   // { path: 'recipes', component: RecipesComponent, ... },
-  { path: 'shopping-list', component: ShoppingListComponent },
+  // { path: 'shopping-list', component: ShoppingListComponent },
   { path: 'auth', component: AuthComponent },
 ];
 
