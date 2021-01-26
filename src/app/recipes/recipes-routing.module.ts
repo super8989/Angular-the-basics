@@ -9,8 +9,9 @@ import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipesResolverService } from './recipes-resolver.service';
 
 const routes: Routes = [
+  // Being loaded lazily
   {
-    path: 'recipes',
+    path: '',
     component: RecipesComponent,
     canActivate: [AuthGuard],
     children: [
