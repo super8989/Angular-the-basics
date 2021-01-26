@@ -9,7 +9,7 @@ import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipesResolverService } from './recipes-resolver.service';
 
 const routes: Routes = [
-  // Being loaded lazily
+  // path: 'recipes' moved to lazy loading in app-routing.module
   {
     path: '',
     component: RecipesComponent,

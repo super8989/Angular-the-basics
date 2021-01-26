@@ -11,12 +11,25 @@ const appRoutes: Routes = [
         return m.RecipesModule;
       }),
   },
+  {
+    path: 'shopping-list',
+    loadChildren: () =>
+      import('./shopping-list/shopping-list.module').then(
+        (m) => m.ShoppingListModule
+      ),
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 
   // Moved to recipes-routing.module.ts
   // { path: 'recipes', component: RecipesComponent, ... },
 
+  // Moved to shopping-list-module
   // { path: 'shopping-list', component: ShoppingListComponent },
 
+  // Moved to auth.module
   // { path: 'auth', component: AuthComponent },
 ];
 

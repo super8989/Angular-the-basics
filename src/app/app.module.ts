@@ -4,10 +4,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import { AuthModule } from './auth/auth.module';
 
 // import { AuthComponent } from './auth/auth.component';
 // import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +22,8 @@ import { AuthModule } from './auth/auth.module';
 // import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 // import { RecipesModule } from './recipes/recipes.module';
+// import { AuthModule } from './auth/auth.module';
+// import { ShoppingListModule } from './shopping-list/shopping-list.module';
 
 @NgModule({
   declarations: [
@@ -55,13 +55,13 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    ShoppingListModule,
     SharedModule,
     CoreModule,
-    AuthModule,
 
     // Being loaded lazyily so cannot be loaded in here
     // RecipesModule,
+    // ShoppingListModule,
+    // AuthModule,
 
     // Moved to modules where needed:  auth.module, shopping-list.module...
     // FormsModule,
