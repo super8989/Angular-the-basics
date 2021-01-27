@@ -27,11 +27,13 @@ export function shoppingListReducer(
         ...state,
         ingredients: [...state.ingredients, action.payload],
       };
+
     case ShoppingListActions.ADD_INGREDIENTS:
       return {
         ...state,
         ingredients: [...state.ingredients, ...action.payload],
       };
+
     case ShoppingListActions.UPDATE_INGREDIENT:
       const ingredient = state.ingredients[action.payload.index];
       const updatedIngredient = {
@@ -45,6 +47,7 @@ export function shoppingListReducer(
         ...state,
         ingredients: updatedIngredients,
       };
+
     case ShoppingListActions.DELETE_INGREDIENT:
       const deletedIngredients = [...state.ingredients];
       deletedIngredients.splice(action.payload, 1);
@@ -55,6 +58,21 @@ export function shoppingListReducer(
           return igIndex !== action.payload;
         }),
       };
+
+    case ShoppingListActions.START_EDIT:
+      return {
+        ...state,
+        editedIngredient: { ...state.ingredients[action.payload] },
+        editedIngredientIndex: action.payload,
+      };
+
+    case ShoppingListActions.STOP_EDIT:
+      return {
+        ...state,
+        editedIngredient: null,
+        editedIngredientIndex: -1,
+      };
+
     default:
       return state;
   }
