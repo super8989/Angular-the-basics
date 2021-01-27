@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 // import { AuthComponent } from './auth/auth.component';
 // import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -61,6 +63,10 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
     SharedModule,
     CoreModule,
     StoreModule.forRoot({ shoppingList: shoppingListReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
 
     // Being loaded lazyily so cannot be loaded in here
     // RecipesModule,
