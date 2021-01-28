@@ -8,10 +8,13 @@ import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
+
 import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import { authReducer } from './auth/store/auth.reducer';
+import * as fromApp from './store/app.reducer';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-
 // import { AuthComponent } from './auth/auth.component';
 // import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { AlertComponent } from './shared/alert/alert.component';
@@ -62,7 +65,14 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     SharedModule,
     CoreModule,
-    StoreModule.forRoot({ shoppingList: shoppingListReducer }),
+
+    StoreModule.forRoot(fromApp.appReducer),
+    // Merged into appReducer
+    // StoreModule.forRoot({
+    //   shoppingList: shoppingListReducer,
+    //   auth: authReducer,
+    // }),
+
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

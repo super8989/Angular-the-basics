@@ -6,6 +6,7 @@ import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
 import * as fromShoppingList from './store/shopping-list.reducer';
 import * as ShoppingListActions from './store/shopping-list.actions';
+import * as fromApp from '../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -19,7 +20,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   constructor(
     private slService: ShoppingListService,
     // Store<{ key from app.module:  state = { ingredients: Ingredient[] }  (type of data that the reducer function yields) }
-    private store: Store<fromShoppingList.AppState>
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
