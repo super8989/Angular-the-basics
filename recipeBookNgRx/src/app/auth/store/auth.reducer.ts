@@ -13,6 +13,8 @@ export function authReducer(
   state = initialState,
   action: AuthActions.AuthActions
 ) {
+  console.log('authReducer', state, action);
+
   switch (action.type) {
     case AuthActions.LOGIN:
       const user = new User(
