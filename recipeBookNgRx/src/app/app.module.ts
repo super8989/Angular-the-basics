@@ -13,6 +13,9 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
 import { authReducer } from './auth/store/auth.reducer';
 import * as fromApp from './store/app.reducer';
 
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './auth/store/auth.effects';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 // import { AuthComponent } from './auth/auth.component';
@@ -72,6 +75,8 @@ import { environment } from '../environments/environment';
     //   shoppingList: shoppingListReducer,
     //   auth: authReducer,
     // }),
+
+    EffectsModule.forRoot([AuthEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,
