@@ -33,60 +33,61 @@ export class AuthService {
     private store: Store<fromApp.AppState>
   ) {}
 
-  signup(email: string, password: string) {
-    console.log(this.apiKey);
+  // Replaced by NgRx
+  // signup(email: string, password: string) {
+  //   console.log(this.apiKey);
 
-    // <> === Request Response data
-    return this.http
-      .post<AuthResponseData>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
-      .pipe(
-        // catchError(errorRes =>{return throwError(errorRes)})
-        catchError(this.handleError),
+  //   // <> === Request Response data
+  //   return this.http
+  //     .post<AuthResponseData>(
+  //       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`,
+  //       {
+  //         email: email,
+  //         password: password,
+  //         returnSecureToken: true,
+  //       }
+  //     )
+  //     .pipe(
+  //       // catchError(errorRes =>{return throwError(errorRes)})
+  //       catchError(this.handleError),
 
-        // tap performs some action without changing the response from the observable
-        tap((resData) => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
-          );
-        })
-      );
-  }
+  //       // tap performs some action without changing the response from the observable
+  //       tap((resData) => {
+  //         this.handleAuthentication(
+  //           resData.email,
+  //           resData.localId,
+  //           resData.idToken,
+  //           +resData.expiresIn
+  //         );
+  //       })
+  //     );
+  // }
 
-  login(email: string, password: string) {
-    console.log('logging in');
+  // login(email: string, password: string) {
+  //   console.log('logging in');
 
-    return this.http
-      .post<AuthResponseData>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
-      .pipe(
-        catchError(this.handleError),
-        tap((resData) => {
-          console.log('handling login authentication', resData);
-          return this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
-          );
-        })
-      );
-  }
+  //   return this.http
+  //     .post<AuthResponseData>(
+  //       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`,
+  //       {
+  //         email: email,
+  //         password: password,
+  //         returnSecureToken: true,
+  //       }
+  //     )
+  //     .pipe(
+  //       catchError(this.handleError),
+  //       tap((resData) => {
+  //         console.log('handling login authentication', resData);
+  //         return this.handleAuthentication(
+  //           resData.email,
+  //           resData.localId,
+  //           resData.idToken,
+  //           +resData.expiresIn
+  //         );
+  //       })
+  //     );
+  // }
 
   autoLogin() {
     const userData: {
@@ -137,7 +138,7 @@ export class AuthService {
     // this.user.next(null);
     this.store.dispatch(new AuthActions.Logout());
 
-    this.router.navigate(['/auth']);
+    // this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
 
     if (this.tokenExpirationTimer) {
