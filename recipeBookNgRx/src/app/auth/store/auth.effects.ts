@@ -5,6 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { API } from 'src/environments/api.service';
+import { AuthService } from '../auth.service';
 import { User } from '../user.model';
 
 import * as AuthActions from './auth.actions';
@@ -80,6 +81,10 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap((resData) => {
+            console.log('Setting logout timer');
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
           map((resData) => {
             console.log(resData);
 
@@ -115,9 +120,11 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap((resData) => {
+            console.log('Setting logout timer');
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
           map((resData) => {
-            console.log(resData);
-
             console.log(resData);
 
             return handleAuthentication(
@@ -168,6 +175,12 @@ export class AuthEffects {
       );
 
       if (loadedUser.token) {
+        const expirationDuration =
+          new Date(userData._tokenExpirationDate).getTime() -
+          new Date().getTime();
+        console.log('Setting logout timer');
+        this.authService.setLogoutTimer(expirationDuration);
+
         return new AuthActions.AuthenticateSuccess({
           email: loadedUser.email,
           userId: loadedUser.id,
@@ -183,6 +196,9 @@ export class AuthEffects {
   authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     tap(() => {
+      console.log('Clearing logout timer');
+      this.authService.clearLogoutTimer();
+
       console.log('Clearing local storage');
       localStorage.removeItem('userData');
     })
@@ -192,6 +208,7 @@ export class AuthEffects {
     private actions$: Actions,
     private http: HttpClient,
     private api: API,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 }
