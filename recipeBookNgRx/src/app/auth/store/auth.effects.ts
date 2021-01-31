@@ -70,7 +70,8 @@ export class AuthEffects {
   authSignup = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_START),
     switchMap((signupAction: AuthActions.SignupStart) => {
-      console.log('signupAction', signupAction);
+      console.log('auth signup effect running', signupAction);
+
       return this.http
         .post<AuthResponseData>(
           `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`,
@@ -108,7 +109,7 @@ export class AuthEffects {
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
-      console.log(authData);
+      console.log('authLogin effect running', authData);
 
       return this.http
         .post<AuthResponseData>(
@@ -156,7 +157,7 @@ export class AuthEffects {
   autoLogin = this.actions$.pipe(
     ofType(AuthActions.AUTO_LOGIN),
     map(() => {
-      console.log('autoLogin running');
+      console.log('autoLogin effect running');
 
       const userData: {
         email: string;
