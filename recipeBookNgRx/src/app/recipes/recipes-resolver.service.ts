@@ -25,7 +25,7 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
 
   // resolver subscribes automatically
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('Recipes resolver running');
+    console.log('Recipes resolver running', route, state);
 
     // const recipes = this.recipeService.getRecipes();
     // if (recipes.length === 0) {
