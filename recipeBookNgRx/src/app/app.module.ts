@@ -19,6 +19,8 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RecipeEffects } from './recipes/store/recipe.effects';
+
 // import { AuthComponent } from './auth/auth.component';
 // import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { AlertComponent } from './shared/alert/alert.component';
@@ -77,8 +79,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     //   auth: authReducer,
     // }),
 
-    EffectsModule.forRoot([AuthEffects]),
-
+    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
     StoreRouterConnectingModule.forRoot(),
 
     StoreDevtoolsModule.instrument({
